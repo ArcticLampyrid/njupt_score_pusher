@@ -18,6 +18,7 @@ A simple script to automatically fetch course scores of NJUPTer and push them to
      ]
    }
    ```
+   *Note: you should use the credential of the SSO (Single sign-on) system, not the educational administration system.*
 3. After that, use the docker compose to start the service:
    ```yaml
    services:
