@@ -173,7 +173,7 @@ def main():
         import time
 
         while True:
-            __update_data()
+            __update_data_noexcept()
             interval = 60 * 60 * random.uniform(0.8, 1.2)
             next_time = time.strftime(
                 "%Y-%m-%d %H:%M:%S", time.localtime(time.time() + interval)
