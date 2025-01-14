@@ -10,11 +10,13 @@ from njupt_score_pusher.njupt_eas import NjuptEduAdminSystem, CourseScoreInfo
 from njupt_score_pusher.njupt_sso import NjuptSso
 from njupt_score_pusher.njupt_web_vpn import NjuptWebVpn
 from njupt_score_pusher.pusher.common import (
-    MessageEntity,
-    MessageType,
     Pusher,
     do_push,
     build_pushers,
+)
+from njupt_score_pusher.pusher.entity import (
+    MessageEntity,
+    MessageType,
 )
 
 

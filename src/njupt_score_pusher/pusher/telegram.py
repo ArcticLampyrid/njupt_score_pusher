@@ -2,7 +2,7 @@ import dataclasses
 
 import requests
 
-from njupt_score_pusher.pusher.common import MessageEntity, build_text_message
+from njupt_score_pusher.pusher.entity import MessageEntity, build_text_message
 
 
 @dataclasses.dataclass
