@@ -99,13 +99,14 @@ class NjuptEduAdminSystem:
         initial_view_state_generator_match = VIEW_STATE_GENERATOR_PATTERN.search(
             response.text
         )
-        if (
-            initial_view_state_match is None
-            or initial_view_state_generator_match is None
-        ):
+        if initial_view_state_match is None:
             raise ValueError("Failed to get initial view state")
         view_state = initial_view_state_match.group(1)
-        view_state_generator = initial_view_state_generator_match.group(1)
+        view_state_generator = (
+            initial_view_state_generator_match.group(1)
+            if initial_view_state_generator_match is not None
+            else ""
+        )
         data = {
             "__VIEWSTATE": view_state,
             "__VIEWSTATEGENERATOR": view_state_generator,
