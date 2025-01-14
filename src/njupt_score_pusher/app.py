@@ -23,6 +23,7 @@ class GlobalConfig:
     data_dir: str
     username: str
     password: str
+    web_vpn_mode: str | bool | None = None
     pushers: list[dict[str, Any]] = dataclasses.field(default_factory=list)
 
 
@@ -35,7 +36,18 @@ def __update_data(global_config: GlobalConfig, pushers: list[Pusher]):
         }
     )
     web_vpn = NjuptWebVpn(session)
-    use_web_vpn = web_vpn.auto_detect()
+    if global_config.web_vpn_mode == "auto" or global_config.web_vpn_mode is None:
+        use_web_vpn = web_vpn.auto_detect()
+    elif global_config.web_vpn_mode == "on" or global_config.web_vpn_mode is True:
+        use_web_vpn = True
+    elif global_config.web_vpn_mode == "off" or global_config.web_vpn_mode is False:
+        use_web_vpn = False
+    else:
+        logging.error(
+            "Invalid web vpn mode: %s, fallback to auto mode",
+            global_config.web_vpn_mode,
+        )
+        use_web_vpn = web_vpn.auto_detect()
     if use_web_vpn:
         logging.info("Mode: Using WebVPN")
     else:
