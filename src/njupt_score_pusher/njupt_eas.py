@@ -2,10 +2,9 @@ import base64
 from dataclasses import dataclass
 from typing import Tuple
 import urllib.parse
-import requests
 import logging
 import re
-import urllib
+import requests
 
 logger = logging.getLogger(__name__)
 

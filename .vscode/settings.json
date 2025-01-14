@@ -8,5 +8,6 @@
         "--disable=C0116", // Disable missing function docstring
         "--disable=C0415", // Disable import outside top-level
     ],
-    "python.analysis.autoImportCompletions": true
+    "python.analysis.autoImportCompletions": true,
+    "python.analysis.typeCheckingMode": "standard"
 }

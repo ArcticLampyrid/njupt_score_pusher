@@ -1,9 +1,9 @@
 import base64
 import datetime
-import requests
-import urllib.parse
-import ddddocr
 import logging
+import urllib.parse
+import requests
+import ddddocr
 from Crypto.Cipher import AES
 from Crypto.Util import Padding
 
@@ -11,7 +11,7 @@ logger = logging.getLogger(__name__)
 
 
 class NjuptSsoException(Exception):
-    def __init(self, code: int, message: str):
+    def __init__(self, code: int, message: str):
         self.code = code
         self.message = message
 
@@ -28,13 +28,13 @@ class NjuptSso:
         )
 
     def login(self, username: str, password: str) -> None:
-        skipCaptcha = self._ifSkipCaptcha(username)
+        skipCaptcha = self.__if_skip_captcha(username)
         checkKey = str(int(datetime.datetime.now().timestamp() * 1000))
         captcha = ""
         if not skipCaptcha:
-            captcha_image = self._getCaptchaImage(checkKey)
+            captcha_image = self.__get_captcha_image(checkKey)
             captcha = self.ocr.classification(captcha_image)
-            logger.debug(f"Captcha recognized as {captcha} for key {checkKey}")
+            logger.debug("Captcha recognized as %s for key %s", captcha, checkKey)
         else:
             logger.debug("Captcha skipped")
 
@@ -65,20 +65,20 @@ class NjuptSso:
 
     @staticmethod
     def _encrypt(data: str, key: str) -> str:
-        key = b"iam" + key.encode()
-        iv = key
-        cipher = AES.new(key, AES.MODE_CBC, iv)
+        cipher_key = b"iam" + key.encode()
+        cipher_iv = cipher_key
+        cipher = AES.new(cipher_key, AES.MODE_CBC, cipher_iv)
         return cipher.encrypt(Padding.pad(data.encode(), AES.block_size)).hex()
 
-    def _ifSkipCaptcha(self, username: str) -> bool:
+    def __if_skip_captcha(self, username: str) -> bool:
         url = (
             f"{self.base_url}/ssoLogin/getCaptchaStatus/{urllib.parse.quote(username)}"
         )
         response = self.session.get(url).json()
         return response["success"]
 
-    def _getCaptchaImage(self, checkKey: str) -> bytes:
-        url = f"{self.base_url}/sys/randomImage/{checkKey}"
+    def __get_captcha_image(self, check_key: str) -> bytes:
+        url = f"{self.base_url}/sys/randomImage/{check_key}"
         response = self.session.get(url).json()
         if not response["success"]:
             raise NjuptSsoException(response["code"], response["message"])
