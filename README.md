@@ -33,8 +33,27 @@ A simple script to automatically fetch course scores of NJUPTer and push them to
    ```
 4. The script will automatically fetch the scores and push them to the chatbot.
 
+## Configuration
+- `data_dir`: the directory to store the data.
+- `username`: the username of the SSO system.
+- `password`: the password of the SSO system.
+- `pushers`: a list of pushers.
+  - `type`: the type of the pusher.
+  - \<pusher-specific-configuration\>: the configuration of the pusher.
+
+### Pusher
+#### Telegram
+- `type`: `telegram`, fixed value.
+- `token`: the token of the Telegram bot.
+- `chat_id`: the chat ID of the Telegram chat.
+- `api_base`: the base URL of the Telegram Bot API, default to `https://api.telegram.org`. Change it to a reverse proxy if you cannot access the Telegram Bot API directly.
+
+#### Other?
+Just add your implementation in the `pusher` directory and update `pusher/registry.py` file.  
+PRs are welcome!
+
 ## Development
-Dev Container in VSCode is recommended for project development.
+Dev Container in VSCode is recommended for project development. Type checker and linter are enabled by default.
 
 ## License
 Licensed under AGPL v3.0 or later. See [LICENSE](LICENSE.md) for more information.
