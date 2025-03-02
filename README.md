@@ -25,6 +25,9 @@ A simple script to automatically fetch course scores of NJUPTer and push them to
      njupt-score-pusher:
        build:
          context: https://github.com/ArcticLampyrid/njupt_score_pusher.git
+         # Uncomment the following line if you want to use a mirror of PyPI
+         # args:
+         #   PYPI_MIRROR: https://mirrors.cernet.edu.cn/pypi/web/simple
        container_name: njupt-score-pusher
        restart: 'always'
        volumes:
