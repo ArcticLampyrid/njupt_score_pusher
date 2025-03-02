@@ -2,6 +2,7 @@ import os
 import argparse
 import logging
 import json
+import dacite
 
 
 def main():
@@ -36,7 +37,7 @@ def main():
 
     with open(args.config, "r", encoding="utf-8") as f:
         config = json.load(f)
-        global_config = GlobalConfig(**config)
+        global_config = dacite.from_dict(GlobalConfig, config)
         if args.dry:
             logging.info("Dry run enabled")
             global_config.pushers = []

@@ -2,6 +2,7 @@ import logging
 import random
 import time
 from typing import Any, Protocol
+import dacite
 
 from njupt_score_pusher.pusher.entity import MessageEntity
 from njupt_score_pusher.pusher.registry import PUSHER_REGISTRY
@@ -19,7 +20,9 @@ def build_pushers(params: list[dict[str, Any]]) -> list[Pusher]:
         try:
             if param["type"] in PUSHER_REGISTRY:
                 pusher_param = {k: v for k, v in param.items() if k != "type"}
-                pusher_instance = PUSHER_REGISTRY[param["type"]](**pusher_param)
+                pusher_instance = dacite.from_dict(
+                    PUSHER_REGISTRY[param["type"]], pusher_param
+                )
                 pushers.append(pusher_instance)
             else:
                 raise ValueError("Unsupported pusher type")

@@ -21,12 +21,24 @@ from njupt_score_pusher.pusher.entity import (
 
 
 @dataclasses.dataclass
+class RandomizedConfig:
+    min: float
+    max: float
+
+    def random(self) -> float:
+        return random.uniform(self.min, self.max)
+
+
+@dataclasses.dataclass
 class GlobalConfig:
     data_dir: str
     username: str
     password: str
     web_vpn_mode: str | bool | None = None
     pushers: list[dict[str, Any]] = dataclasses.field(default_factory=list)
+    scrape_interval: RandomizedConfig = dataclasses.field(
+        default_factory=lambda: RandomizedConfig(60 * 60 * 0.8, 60 * 60 * 1.2)
+    )
 
 
 def __update_data(global_config: GlobalConfig, pushers: list[Pusher]):
@@ -127,7 +139,7 @@ def app_main(global_config: GlobalConfig, args):
     else:
         while True:
             __update_data_noexcept(global_config, pushers)
-            interval = 60 * 60 * random.uniform(0.8, 1.2)
+            interval = global_config.scrape_interval.random()
             next_time = time.strftime(
                 "%Y-%m-%d %H:%M:%S", time.localtime(time.time() + interval)
             )

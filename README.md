@@ -40,9 +40,29 @@ A simple script to automatically fetch course scores of NJUPTer and push them to
 - `data_dir`: the directory to store the data.
 - `username`: the username of the SSO system.
 - `password`: the password of the SSO system.
+- `scrape_interval`: the interval range of scraping the scores, default to 0.8 ~ 1.2 hours.
 - `pushers`: a list of pushers.
   - `type`: the type of the pusher.
   - \<pusher-specific-configuration\>: the configuration of the pusher.
+
+### Scrape Interval
+The `scrape_interval` is a structure with two fields: `min` and `max`. The script will sleep for a random time between `min` and `max` before fetching the scores.
+
+The `min` and `max` are both in seconds. For example, if you want to scrape the scores every 1 ~ 2 hours, you can set `scrape_interval` to:
+```json
+"scrape_interval": {
+  "min": 3600,
+  "max": 7200
+}
+```
+
+The default value is:
+```json
+"scrape_interval": {
+  "min": 2880,
+  "max": 4320
+}
+```
 
 ### Pusher
 #### Telegram
